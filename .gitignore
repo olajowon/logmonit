@@ -1,0 +1,3 @@
+logmonit
+*.toml
+!example.toml
