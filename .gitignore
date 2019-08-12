@@ -1,3 +1,4 @@
 logmonit
 *.toml
 !example.toml
+*.idea
