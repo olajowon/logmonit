@@ -92,6 +92,36 @@ func getBeginPosition(logfileName string, openPosition int64, endPosition int64)
 	return beginPosition
 }
 
+func getSize(path string)int64{
+	openStat, _ := os.Stat(path)
+	return openStat.Size()
+}
+
+func alertCheck(datapoints [][2]int64, lowUnix int64, expression string)(bool, int64){
+	count := int64(0)
+	for _, datapoint := range datapoints {
+		if datapoint[0] >= lowUnix {
+			count += datapoint[1]
+		}
+	}
+	exprStr := fmt.Sprintf(expression, count)
+	parseStr, err := eval.ParseString(exprStr,"")
+	if err != nil{
+		log.Errorf("func:alertCheck, ParseString error: %s", err)
+		return false, count
+	}
+	res, err := parseStr.EvalToInterface(nil)
+	if err != nil {
+		log.Errorf("func:alertCheck, EvalToInterface error: %s", err)
+		return false, count
+	}
+
+	if fmt.Sprintf("%v", res) == "true" {
+		return true, count
+	} else {
+		return false, count
+	}
+}
 
 func monitor(logfile logFile, beginTimeUnix int64){
 	logfileName := logfile.Name
@@ -144,8 +174,8 @@ func monitor(logfile logFile, beginTimeUnix int64){
 		itemExp := monitorItem.Expression
 
 		itemDpMap[itemName] = append(DATAPOINT_MAP[logfileName][itemName], datapoint)
-		if dpLen := len(itemDpMap[itemName]); dpLen > 5 {
-			itemDpMap[itemName] = itemDpMap[itemName][dpLen-5:]
+		if dpLen := len(itemDpMap[itemName]); dpLen > 1500 {
+			itemDpMap[itemName] = itemDpMap[itemName][dpLen-1500:]
 		}
 
 		if (currMinUnix+60)%(itemInterval*60) == 0 {
@@ -160,38 +190,6 @@ func monitor(logfile logFile, beginTimeUnix int64){
 	DATAPOINT_MAP[logfileName] = itemDpMap
 	log.Infof("func:monitor, end: %s", logfileName)
 }
-
-func getSize(path string)int64{
-	openStat, _ := os.Stat(path)
-	return openStat.Size()
-}
-
-func alertCheck(datapoints [][2]int64, lowUnix int64, expression string)(bool, int64){
-	count := int64(0)
-	for _, datapoint := range datapoints {
-		if datapoint[0] >= lowUnix {
-			count += datapoint[1]
-		}
-	}
-	exprStr := fmt.Sprintf(expression, count)
-	parseStr, err := eval.ParseString(exprStr,"")
-	if err != nil{
-		log.Errorf("func:alertCheck, ParseString error: %s", err)
-		return false, count
-	}
-	res, err := parseStr.EvalToInterface(nil)
-	if err != nil {
-		log.Errorf("func:alertCheck, EvalToInterface error: %s", err)
-		return false, count
-	}
-
-	if fmt.Sprintf("%v", res) == "true" {
-		return true, count
-	} else {
-		return false, count
-	}
-}
-
 
 func monitorBasic(){
 	beginTimeUnix := time.Now().Unix()
