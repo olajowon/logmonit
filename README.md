@@ -19,7 +19,7 @@ LogMonit 是对**日志文件**进行实时检查、报警的Daemon服务。
 	match="logfile"
 	interval=1
 	expression="1<%d"
-	webhook="https://oapi.dingtalk.com/robot/send?access_token=67c8ced5356f71e4ed45579972c899c225562c850ae95a571d647239a1d7b0e1"
+	webhook="https://oapi.dingtalk.com/robot/send?access_token=xxx"
 	comment="日志文件"
 	
 	[[monitors]]
@@ -27,7 +27,7 @@ LogMonit 是对**日志文件**进行实时检查、报警的Daemon服务。
 	match="."
 	interval=5
 	expression="200<%d"
-	webhook="https://oapi.dingtalk.com/robot/send?access_token=67c8ced5356f71e4ed45579972c899c225562c850ae95a571d647239a1d7b0e1"
+	webhook="https://oapi.dingtalk.com/robot/send?access_token=xxx"
 	comment="全部"
 
 ### 编译 logmonit 

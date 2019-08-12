@@ -34,7 +34,7 @@ type monitorItem struct {
 }
 
 const tomldir = "tpl/"
-const logpath = "/tmp/logmntr.log"
+const logpath = "/tmp/logmonit.log"
 var log = logrus.New()
 var LOGFILES []logFile
 var POSITION_MAP map[string]int64
@@ -52,17 +52,19 @@ func makeLogFiles(){
 			continue
 		}else{
 			for  _, fi  := range rd {
-				var logfile logFile
-				var tomlpath string
-				tomlpath = tomldir + fi.Name()
-				_, err := toml.DecodeFile(tomlpath, &logfile)
-				if err != nil {
-					log.Errorf("makeLogfiles error: %s", err)
-					time.Sleep(time.Duration(60)*time.Second)
-					continue
-				}
+				if fi.Name() != "example.toml" {
+					var logfile logFile
+					var tomlpath string
+					tomlpath = tomldir + fi.Name()
+					_, err := toml.DecodeFile(tomlpath, &logfile)
+					if err != nil {
+						log.Errorf("makeLogfiles error: %s", err)
+						time.Sleep(time.Duration(60)*time.Second)
+						continue
+					}
 
-				logfiles = append(logfiles, logfile)
+					logfiles = append(logfiles, logfile)
+				}
 			}
 		}
 

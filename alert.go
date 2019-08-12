@@ -15,7 +15,7 @@ func SendAlert(logfile logFile, monitorItem monitorItem, from int64, to int64, c
 	itemName := monitorItem.Name
 	fromTime := time.Unix(from,0).Format("2006-01-02 15:04")
 	toTime := time.Unix(to,0).Format("2006-01-02 15:04")
-	content := fmt.Sprintf("- Logmntr 报警 -\n日志：%s\n监控：%s\n统计：%d\n时间：%s:00 - %s:59\n",
+	content := fmt.Sprintf("- Logmonit 报警 -\n日志：%s\n监控：%s\n统计：%d\n时间：%s:00 - %s:59\n",
 		logfileName, itemName, count, fromTime, toTime)
 
 	data := makeData(content)
