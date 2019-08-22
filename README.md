@@ -10,7 +10,7 @@ LogMonit 是对**日志文件**进行正则关键词检查、报警的Daemon服�
 
 **表达式 (expression)** 支持 n<%d、%d<n、n1<%d<n2 等比较运算表达式
 
-**钩子 webhook**	默认支持钉钉webhook进行报警通知
+**钩子 (webhook)** 默认支持钉钉webhook进行报警通知
 
 
 ## Configuration & Start-up
@@ -46,8 +46,4 @@ LogMonit 是对**日志文件**进行正则关键词检查、报警的Daemon服�
 	go build -o logmonit .
 	
 ### 启动 
-	./logmonit 
-	
-## TO DO
-		
-更多支持及使用说明会陆续完善...
+	./logmonit
