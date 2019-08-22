@@ -1,0 +1,21 @@
+name="ExampleLog"               # 为日志文件起一个名字；必填
+path="/path/example.log"        # 日志文件的绝对路径，如果定义了find，path允许为空，path 优先级高于find；选填
+find="ls /path/example.log"     # 使用命令查找文件，务必保证命令输出的文件路径完整且仅输出一个日志文件路径；选填
+
+[[monitors]]                    # 注意是双方括号
+name="monitorOne"               # 为监控项起一个名字；必填
+match="one"                     # 匹配正则表达式；必填
+interval=1                      # 报警检查区间，分钟为单位，00:01、00:02、00:3、... 23:59 每分钟都会进行报警检查
+expression="1<%d"               # 运算比较表达式，支持 n<%d、%d<n、n1<%d<n2，检查区间内统计之和满足该表达式则报警
+webhook="https://oapi.dingtalk.com/robot/send?access_token=xxx"     # 发送报警地址，默认钉钉webhook
+comment="commentOne"            # 备注
+# 1分钟内（interval=1），匹配到 "one"（match="one"） 的行数大于1时（expression="1<%d" ）则向webook地址发送报警
+
+[[monitors]]
+name="monitorTwo"
+match="two"
+interval=5                      # 00:00、00:05、00:10、... 23:55
+expression="20<%d"
+webhook="https://oapi.dingtalk.com/robot/send?access_token=xxx"
+comment="commentTwo"
+# 5分钟内（interval=5），匹配到 "two"（match="two"） 的行数大于20时（expression="20<%d" ）则向webook地址发送报警
