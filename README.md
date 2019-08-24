@@ -38,9 +38,9 @@ LogMonit 是对**日志文件**进行正则关键词检查、报警的Daemon服�
 	webhook="https://oapi.dingtalk.com/robot/send?access_token=xxx"
 	comment="全部"
 	
-**monitors.Logfile:** 1分钟内（interval=1），匹配 "logfile"（match="logfile"） 的行数大于1时（expression="1<%d" ）则向webook (https://oapi.dingtalk.com/robot/send?access_token=xxx) 地址发送报警
+**monitors.Logfile:** 1分钟内（interval=1），匹配 "logfile"（match="logfile"） 的行数大于1时（expression="1<%d" ）则向webhook地址 (webhook="https://oapi.dingtalk.com/robot/send?access_token=xxx") 发送报警
 
-**monitors.Total:** 5分钟内（interval=1），匹配 "."（match="one"） 的行数大于200时（expression="1<%d" ）则向webook (https://oapi.dingtalk.com/robot/send?access_token=xxx) 地址发送报警
+**monitors.Total:** 5分钟内（interval=1），匹配 "."（match="."） 的行数大于200时（expression="200<%d" ）则向webhook地址 (webhook="https://oapi.dingtalk.com/robot/send?access_token=xxx") 地址发送报警
 
 ### 编译 logmonit 
 	go build -o logmonit .
